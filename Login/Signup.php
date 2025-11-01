@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../inc/db_connect.php';
+require_once __DIR__ . '../db_connection.php';
 
 $first = trim($_POST['first_name'] ?? '');
 $last  = trim($_POST['last_name'] ?? '');
