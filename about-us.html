@@ -124,31 +124,38 @@
   </header>
   
   <div class="team-container">
-    <div class="member-card" data-name="Aareck Miguel Lazaro" data-role="Back-End Developer" data-desc="Aareck is our genius back-end developer who handles all server-side logic." data-img="img/img/aareck.jpg" data-socials='{"linkedin":"https://linkedin.com","github":"https://github.com"}'>
+    <div class="member-card" data-name="Aareck Miguel Lazaro" data-role="Back-End Developer" data-desc="Aareck is our genius back-end developer who handles all server-side logic." data-img="img/img/aareck.jpg" data-socials='{"Facebook":""}'>
       <img src="img/img/aareck.jpg" alt="Aareck Miguel Lazaro">
       <h3>Aareck Miguel Lazaro</h3>
       <p>Back-End Developer</p>
     </div>
 
-    <div class="member-card" data-name="Jonas Miguel Mapaquit" data-role="Front-End Developer" data-desc="Jonas makes sure everything looks perfect on the front-end." data-img="img/img/Jonas.jpg" data-socials='{"linkedin":"https://linkedin.com","github":"https://github.com"}'>
+    <div class="member-card" data-name="Jonas Miguel Mapaquit" data-role="Front-End Developer" data-desc="Jonas makes sure everything looks perfect on the front-end." data-img="img/img/Jonas.jpg" data-socials='{"Facebook":""}'>
       <img src="img/img/Jonas.jpg" alt="Jonas Miguel Mapaquit">
       <h3>Jonas Miguel Mapaquit</h3>
       <p>Front-End Developer</p>
     </div>
    
-    <div class="member-card" data-name="Eljay Losa" data-role="Pancit Canton Specialist" data-desc="Eljay is the culinary wizard who keeps the team energized with his pancit canton." data-img="img/img/Losa, Eljay G2..jpg" data-socials='{"linkedin":"https://linkedin.com"}'>
+        <div class="member-card" 
+        data-name="Eljay Losa" 
+        data-role="Pancit Canton Specialist" 
+        data-desc="Eljay is the culinary wizard who keeps the team energized with his pancit canton." 
+        data-true-role="Front-End Developer & JavaScript Wizard" 
+        data-true-desc="Eljay is actually our coding ninja, handling UI magic and making our app function like a pro." 
+        data-img="img/img/Losa, Eljay G2..jpg" 
+        data-socials='{"Facebook":""}'>
       <img src="img/img/Losa, Eljay G2..jpg" alt="Eljay Losa">
       <h3>Eljay Losa</h3>
-      <p>Taga luto pancit canton</p>
+      <p>Pancit Canton Specialist</p>
     </div>
     
-    <div class="member-card" data-name="Jeush Andrei Luna" data-role="Front-End Developer" data-desc="Jeush designs interactive UI components and ensures a smooth user experience." data-img="img/img/jeush.jpg" data-socials='{"linkedin":"https://linkedin.com","github":"https://github.com"}'>
+    <div class="member-card" data-name="Jeush Andrei Luna" data-role="Front-End Developer" data-desc="Jeush designs interactive UI components and ensures a smooth user experience." data-img="img/img/jeush.jpg" data-socials='{"Facebook":""}'>
       <img src="img/img/jeush.jpg" alt="Jeush Andrei Luna">
       <h3>Jeush Andrei Luna</h3>
       <p>Front-End Developer</p>
     </div>
 
-    <div class="member-card" data-name="Carlos Miguel Luna" data-role="Back-End Developer" data-desc="Carlos manages databases and server-side infrastructure like a pro." data-img="img/img/carlos.jpg" data-socials='{"linkedin":"https://linkedin.com","github":"https://github.com"}'>
+    <div class="member-card" data-name="Carlos Miguel Luna" data-role="Back-End Developer" data-desc="Carlos ensures the back-end works smoothly and helps keep the project running efficiently." data-img="img/img/carlos.jpg" data-socials='{"Facebook":""}'>
       <img src="img/img/carlos.jpg" alt="Carlos F. Luna">
       <h3>Carlos Miguel Luna</h3>
       <p>Back-End Developer</p>
@@ -164,6 +171,9 @@
   <!-- Modal -->
   <div id="memberModal" class="modal">
     <div class="modal-content">
+      <button id="revealBtn" style="margin-top: 1rem; padding: 0.5rem 1rem; cursor: pointer; border-radius: 5px; border: none; background-color: #4CAF50; color: white; font-weight: bold;">
+        Reveal True Role
+      </button>
       <span class="close">&times;</span>
       <img id="modal-img" src="" alt="">
       <h2 id="modal-name"></h2>
@@ -181,6 +191,7 @@
     const modalDesc = document.getElementById("modal-desc");
     const modalSocials = document.getElementById("modal-socials");
     const closeBtn = document.querySelector(".close");
+    const revealBtn = document.getElementById("revealBtn");
 
     document.querySelectorAll(".member-card").forEach(card => {
       card.addEventListener("click", () => {
@@ -201,6 +212,18 @@
           modalSocials.appendChild(a);
         }
       });
+    });
+
+        revealBtn.addEventListener("click", () => {
+      // Only reveal if the card has true-role
+      const currentCard = Array.from(document.querySelectorAll(".member-card"))
+        .find(card => card.dataset.name === modalName.textContent);
+
+      if(currentCard.dataset.trueRole && currentCard.dataset.trueDesc) {
+        modalRole.textContent = currentCard.dataset.trueRole;
+        modalDesc.textContent = currentCard.dataset.trueDesc;
+        revealBtn.style.display = "none"; // Hide the button after revealing
+      }
     });
 
     closeBtn.onclick = () => modal.style.display = "none";
