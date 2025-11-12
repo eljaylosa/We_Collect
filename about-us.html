@@ -171,15 +171,15 @@
   <!-- Modal -->
   <div id="memberModal" class="modal">
     <div class="modal-content">
-      <button id="revealBtn" style="margin-top: 1rem; padding: 0.5rem 1rem; cursor: pointer; border-radius: 5px; border: none; background-color: #4CAF50; color: white; font-weight: bold;">
-        Reveal True Role
-      </button>
       <span class="close">&times;</span>
       <img id="modal-img" src="" alt="">
       <h2 id="modal-name"></h2>
       <p id="modal-role"></p>
       <p id="modal-desc"></p>
       <div class="social-links" id="modal-socials"></div>
+      <button id="toggleRoleBtn" style="margin-top: 1rem; padding: 0.5rem 1rem; cursor: pointer; border-radius: 5px; border: none; background-color: #4CAF50; color: white; font-weight: bold;">
+        Show True Role
+      </button>
     </div>
   </div>
 
@@ -191,7 +191,9 @@
     const modalDesc = document.getElementById("modal-desc");
     const modalSocials = document.getElementById("modal-socials");
     const closeBtn = document.querySelector(".close");
-    const revealBtn = document.getElementById("revealBtn");
+    const toggleBtn = document.getElementById("toggleRoleBtn");
+    let showingTrue = false; // Track toggle state
+
 
     document.querySelectorAll(".member-card").forEach(card => {
       card.addEventListener("click", () => {
@@ -200,6 +202,14 @@
         modalName.textContent = card.dataset.name;
         modalRole.textContent = card.dataset.role;
         modalDesc.textContent = card.dataset.desc;
+
+          // Update toggle button text
+          if (card.dataset.trueRole && card.dataset.trueDesc) {
+            toggleBtn.style.display = "inline-block";
+            toggleBtn.textContent = "Show True Role";
+          } else {
+            toggleBtn.style.display = "none";
+          }
 
         // Social links
         modalSocials.innerHTML = "";
@@ -214,15 +224,21 @@
       });
     });
 
-        revealBtn.addEventListener("click", () => {
-      // Only reveal if the card has true-role
+    // Toggle true/joke role
+    toggleBtn.addEventListener("click", () => {
       const currentCard = Array.from(document.querySelectorAll(".member-card"))
         .find(card => card.dataset.name === modalName.textContent);
 
-      if(currentCard.dataset.trueRole && currentCard.dataset.trueDesc) {
+      if (!showingTrue) {
         modalRole.textContent = currentCard.dataset.trueRole;
         modalDesc.textContent = currentCard.dataset.trueDesc;
-        revealBtn.style.display = "none"; // Hide the button after revealing
+        toggleBtn.textContent = "Show Joke Role";
+        showingTrue = true;
+      } else {
+        modalRole.textContent = currentCard.dataset.role;
+        modalDesc.textContent = currentCard.dataset.desc;
+        toggleBtn.textContent = "Show True Role";
+        showingTrue = false;
       }
     });
 
