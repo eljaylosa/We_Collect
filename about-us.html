@@ -202,8 +202,6 @@
         modalName.textContent = card.dataset.name;
         modalRole.textContent = card.dataset.role;
         modalDesc.textContent = card.dataset.desc;
-        card.dataset.roleBackup = card.dataset.role;
-        card.dataset.descBackup = card.dataset.desc;
 
           // Update toggle button text
           if (card.dataset.trueRole && card.dataset.trueDesc) {
@@ -228,33 +226,21 @@
 
     // Toggle true/joke role
     toggleBtn.addEventListener("click", () => {
-    const currentCard = Array.from(document.querySelectorAll(".member-card"))
-      .find(card => card.dataset.name === modalName.textContent);
+      const currentCard = Array.from(document.querySelectorAll(".member-card"))
+        .find(card => card.dataset.name === modalName.textContent);
 
-    if (!showingTrue) {
-      // Show true role
-      modalRole.textContent = currentCard.dataset.trueRole;
-      modalDesc.textContent = currentCard.dataset.trueDesc;
-
-      // Update the data-role attribute so modal uses the true role now
-      currentCard.dataset.role = currentCard.dataset.trueRole;
-      currentCard.dataset.desc = currentCard.dataset.trueDesc;
-
-      toggleBtn.textContent = "Show Joke Role";
-      showingTrue = true;
-    } else {
-      // Revert to joke role
-      modalRole.textContent = currentCard.dataset.roleBackup || currentCard.dataset.role; // fallback
-      modalDesc.textContent = currentCard.dataset.descBackup || currentCard.dataset.desc;
-
-      // Restore original data-role
-      currentCard.dataset.role = currentCard.dataset.roleBackup;
-      currentCard.dataset.desc = currentCard.dataset.descBackup;
-
-      toggleBtn.textContent = "Show True Role";
-      showingTrue = false;
-    }
-  });
+      if (!showingTrue) {
+        modalRole.textContent = currentCard.dataset.trueRole;
+        modalDesc.textContent = currentCard.dataset.trueDesc;
+        toggleBtn.textContent = "Show Joke Role";
+        showingTrue = true;
+      } else {
+        modalRole.textContent = currentCard.dataset.role;
+        modalDesc.textContent = currentCard.dataset.desc;
+        toggleBtn.textContent = "Show True Role";
+        showingTrue = false;
+      }
+    });
 
     closeBtn.onclick = () => modal.style.display = "none";
     window.onclick = e => { if(e.target == modal) modal.style.display = "none"; }
