@@ -41,6 +41,7 @@
       text-align: center;
       padding: 1.5rem 1rem;
       transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
     }
 
     .member-card:hover {
@@ -67,10 +68,52 @@
       font-size: 0.9rem;
     }
 
-    @media (max-width: 500px) {
-      header h1 {
-        font-size: 1.5rem;
-      }
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.6);
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: 10% auto;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 500px;
+      position: relative;
+      text-align: center;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .modal img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 1rem;
+    }
+
+    .social-links a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #4CAF50;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -81,31 +124,31 @@
   </header>
   
   <div class="team-container">
-    <div class="member-card">
+    <div class="member-card" data-name="Aareck Miguel Lazaro" data-role="Back-End Developer" data-desc="Aareck is our genius back-end developer who handles all server-side logic." data-img="img/img/aareck.jpg" data-socials='{"linkedin":"https://linkedin.com","github":"https://github.com"}'>
       <img src="img/img/aareck.jpg" alt="Aareck Miguel Lazaro">
       <h3>Aareck Miguel Lazaro</h3>
       <p>Back-End Developer</p>
     </div>
 
-    <div class="member-card">
+    <div class="member-card" data-name="Jonas Miguel Mapaquit" data-role="Front-End Developer" data-desc="Jonas makes sure everything looks perfect on the front-end." data-img="img/img/Jonas.jpg" data-socials='{"linkedin":"https://linkedin.com","github":"https://github.com"}'>
       <img src="img/img/Jonas.jpg" alt="Jonas Miguel Mapaquit">
       <h3>Jonas Miguel Mapaquit</h3>
-      <p>UI/UX Designer</p>
+      <p>Front-End Developer</p>
     </div>
    
-    <div class="member-card">
+    <div class="member-card" data-name="Eljay Losa" data-role="Pancit Canton Specialist" data-desc="Eljay is the culinary wizard who keeps the team energized with his pancit canton." data-img="img/img/Losa, Eljay G2..jpg" data-socials='{"linkedin":"https://linkedin.com"}'>
       <img src="img/img/Losa, Eljay G2..jpg" alt="Eljay Losa">
       <h3>Eljay Losa</h3>
       <p>Taga luto pancit canton</p>
     </div>
     
-    <div class="member-card">
+    <div class="member-card" data-name="Jeush Andrei Luna" data-role="Front-End Developer" data-desc="Jeush designs interactive UI components and ensures a smooth user experience." data-img="img/img/jeush.jpg" data-socials='{"linkedin":"https://linkedin.com","github":"https://github.com"}'>
       <img src="img/img/jeush.jpg" alt="Jeush Andrei Luna">
       <h3>Jeush Andrei Luna</h3>
       <p>Front-End Developer</p>
     </div>
 
-    <div class="member-card">
+    <div class="member-card" data-name="Carlos Miguel Luna" data-role="Back-End Developer" data-desc="Carlos manages databases and server-side infrastructure like a pro." data-img="img/img/carlos.jpg" data-socials='{"linkedin":"https://linkedin.com","github":"https://github.com"}'>
       <img src="img/img/carlos.jpg" alt="Carlos F. Luna">
       <h3>Carlos Miguel Luna</h3>
       <p>Back-End Developer</p>
@@ -117,6 +160,52 @@
       <a href="index.html" style="text-decoration: none; color: #4CAF50; font-weight: bold;">&larr; Back to Home</a>
     </p>
   </div>
+
+  <!-- Modal -->
+  <div id="memberModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <img id="modal-img" src="" alt="">
+      <h2 id="modal-name"></h2>
+      <p id="modal-role"></p>
+      <p id="modal-desc"></p>
+      <div class="social-links" id="modal-socials"></div>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById("memberModal");
+    const modalImg = document.getElementById("modal-img");
+    const modalName = document.getElementById("modal-name");
+    const modalRole = document.getElementById("modal-role");
+    const modalDesc = document.getElementById("modal-desc");
+    const modalSocials = document.getElementById("modal-socials");
+    const closeBtn = document.querySelector(".close");
+
+    document.querySelectorAll(".member-card").forEach(card => {
+      card.addEventListener("click", () => {
+        modal.style.display = "block";
+        modalImg.src = card.dataset.img;
+        modalName.textContent = card.dataset.name;
+        modalRole.textContent = card.dataset.role;
+        modalDesc.textContent = card.dataset.desc;
+
+        // Social links
+        modalSocials.innerHTML = "";
+        const socials = JSON.parse(card.dataset.socials);
+        for (let key in socials) {
+          const a = document.createElement("a");
+          a.href = socials[key];
+          a.target = "_blank";
+          a.textContent = key.charAt(0).toUpperCase() + key.slice(1);
+          modalSocials.appendChild(a);
+        }
+      });
+    });
+
+    closeBtn.onclick = () => modal.style.display = "none";
+    window.onclick = e => { if(e.target == modal) modal.style.display = "none"; }
+  </script>
 
 </body>
 </html>
