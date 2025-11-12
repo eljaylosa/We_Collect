@@ -202,6 +202,8 @@
         modalName.textContent = card.dataset.name;
         modalRole.textContent = card.dataset.role;
         modalDesc.textContent = card.dataset.desc;
+        card.dataset.roleBackup = card.dataset.role;
+        card.dataset.descBackup = card.dataset.desc;
 
           // Update toggle button text
           if (card.dataset.trueRole && card.dataset.trueDesc) {
@@ -233,14 +235,22 @@
       // Show true role
       modalRole.textContent = currentCard.dataset.trueRole;
       modalDesc.textContent = currentCard.dataset.trueDesc;
-      modalName.textContent = `${currentCard.dataset.name} (${currentCard.dataset.trueRole})`;
+
+      // Update the data-role attribute so modal uses the true role now
+      currentCard.dataset.role = currentCard.dataset.trueRole;
+      currentCard.dataset.desc = currentCard.dataset.trueDesc;
+
       toggleBtn.textContent = "Show Joke Role";
       showingTrue = true;
     } else {
       // Revert to joke role
-      modalRole.textContent = currentCard.dataset.role;
-      modalDesc.textContent = currentCard.dataset.desc;
-      modalName.textContent = `${currentCard.dataset.name} (${currentCard.dataset.role})`;
+      modalRole.textContent = currentCard.dataset.roleBackup || currentCard.dataset.role; // fallback
+      modalDesc.textContent = currentCard.dataset.descBackup || currentCard.dataset.desc;
+
+      // Restore original data-role
+      currentCard.dataset.role = currentCard.dataset.roleBackup;
+      currentCard.dataset.desc = currentCard.dataset.descBackup;
+
       toggleBtn.textContent = "Show True Role";
       showingTrue = false;
     }
