@@ -226,21 +226,25 @@
 
     // Toggle true/joke role
     toggleBtn.addEventListener("click", () => {
-      const currentCard = Array.from(document.querySelectorAll(".member-card"))
-        .find(card => card.dataset.name === modalName.textContent);
+    const currentCard = Array.from(document.querySelectorAll(".member-card"))
+      .find(card => card.dataset.name === modalName.textContent);
 
-      if (!showingTrue) {
-        modalRole.textContent = currentCard.dataset.trueRole;
-        modalDesc.textContent = currentCard.dataset.trueDesc;
-        toggleBtn.textContent = "Show Joke Role";
-        showingTrue = true;
-      } else {
-        modalRole.textContent = currentCard.dataset.role;
-        modalDesc.textContent = currentCard.dataset.desc;
-        toggleBtn.textContent = "Show True Role";
-        showingTrue = false;
-      }
-    });
+    if (!showingTrue) {
+      // Show true role
+      modalRole.textContent = currentCard.dataset.trueRole;
+      modalDesc.textContent = currentCard.dataset.trueDesc;
+      modalName.textContent = `${currentCard.dataset.name} (${currentCard.dataset.trueRole})`;
+      toggleBtn.textContent = "Show Joke Role";
+      showingTrue = true;
+    } else {
+      // Revert to joke role
+      modalRole.textContent = currentCard.dataset.role;
+      modalDesc.textContent = currentCard.dataset.desc;
+      modalName.textContent = `${currentCard.dataset.name} (${currentCard.dataset.role})`;
+      toggleBtn.textContent = "Show True Role";
+      showingTrue = false;
+    }
+  });
 
     closeBtn.onclick = () => modal.style.display = "none";
     window.onclick = e => { if(e.target == modal) modal.style.display = "none"; }
